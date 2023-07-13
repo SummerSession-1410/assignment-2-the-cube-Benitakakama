@@ -1,47 +1,66 @@
 package com.example.project;
+import java.util.Scanner;
 
 public class Cube {
 	
 	static String [] [] [] cube = {
 		{
-			{"0b", "1b", "2b"},
-			{"3b", "4b", "5b"},
-			{"6b", "7b", "8b"}
+			{"b", "b", "b"},
+			{"b", "b", "b"},
+			{"b", "b", "b"}
 		},
 		{
-			{"0g", "1g", "2g"},
-			{"3g", "4g", "5g"},
-			{"6g", "7g", "8g"}
+			{"g", "g", "g"},
+			{"g", "g", "g"},
+			{"g", "g", "g"}
 		},
 		{
-			{"0r", "1r", "2r"},
-			{"3r", "4r", "5r"},
-			{"6r", "7r", "8r"}
+			{"r", "r", "r"},
+			{"r", "r", "r"},
+			{"r", "r", "r"}
 		},
 		{
-			{"0o", "1o", "2o"},
-			{"3o", "4o", "5o"},
-			{"6o", "7o", "8o"}
+			{"o", "o", "o"},
+			{"o", "o", "o"},
+			{"o", "o", "o"}
 		},
 		{
-			{"0w", "1w", "2w"},
-			{"3w", "4w", "5w"},
-			{"6w", "7w", "8w"}
+			{"w", "w", "w"},
+			{"w", "w", "w"},
+			{"w", "w", "w"}
 		},
 		{
-			{"0y", "1y", "2y"},
-			{"3y", "4y", "5y"},
-			{"6y", "7y", "8y"}
+			{"y", "y", "y"},
+			{"y", "y", "y"},
+			{"y", "y", "y"}
 		}
 	};
 
     static void showFace(String [][] face) {
          for(int i = 0; i < 3; i++) {
-            for(int j = 0; j < 3; j++)
+            for(int j = 0; j < 3; j++) {
+				if(j != 0) {
+					System.out.print("|");
+				}
                 System.out.print (face[i][j]);
+			}
             System.out.println();
          }
     }
+
+	public static void showCube() {
+		showFace(cube[2]);
+		System.out.println();
+		showFace(cube[0]);
+		System.out.println();
+		showFace(cube[3]);
+		System.out.println();
+		showFace(cube[1]);
+		System.out.println();
+		showFace(cube[5]);
+		System.out.println();
+		showFace(cube[4]);
+	}
 
     static void rotateFace(String [][] face, boolean clockwise) {
         String[][] tempface = new String [3][3];
@@ -62,13 +81,186 @@ public class Cube {
         }
     }
     
+	public static void rotateBlue(boolean clockwise) {
+		rotateFace(cube[0], clockwise);
+		for(int i = 0; i < 3; i++ ) {
+			if (clockwise) {
+				String temp = cube[5][2][i];
+				cube [5][2][i] = cube[3][2 - i][2];
+				cube[3][2 - i][2] = cube [4][0][2 - i];
+				cube [4][0][2 - i] = cube [2][i][0];
+				cube [2][i][0] = temp;
+			}
+			else{
+				String temp = cube [2][i][0];
+				cube [2][i][0] = cube [4][0][2 - i];
+				cube [4][0][2 - i] = cube[3][2 - i][2];
+				cube[3][2 - i][2] = cube [5][2][i];
+				cube[5][2][i] = temp;
+			}			
+		}
+	}
+
+	public static void rotateRed(boolean clockwise) {
+		rotateFace(cube[2], clockwise);
+		for(int i = 0; i < 3; i++ ) {
+			if (clockwise) {
+				String temp = cube[5][2 - i][2];
+				cube[5][2 - i][2] = cube[0][2 - i][2];
+				cube[0][2 - i][2] = cube [4][2 - i][2];
+				cube [4][2 - i][2] = cube [1][2 - i][2];
+				cube [1][2 - i][2] = temp;
+			}
+			else{
+				String temp = cube [1][2 -i][2];
+				 cube [1][2 - i][2] = cube [4][2 - i][2];
+				cube [4][2 - i][2] = cube[0][2 - i][2];
+				cube[0][2 - i][2] = cube[5][2 - i][2];
+				cube[5][2 - i][2] = temp;
+			}			
+		}
+	}
+	public static void rotateGreen(boolean clockwise) {
+		rotateFace(cube[1], clockwise);
+		for(int i = 0; i < 3; i++ ) {
+			if (clockwise) {
+				String temp = cube[4][2][i];
+				cube[4][2][i] = cube[3][i][0];
+				cube[3][i][0] = cube [5][0][2 - i];
+				cube [5][0][2 - i] = cube [2][2 - i][2];
+				cube [2][2 - i][2] = temp;
+			}
+			else{
+				String temp = cube [2][2 - i][2];
+				 cube [2][2 - i][2] = cube [5][0][2 - i];
+				cube [5][0][2 - i] = cube[3][i][0];
+				cube[3][i][0] = cube[4][2][i];
+				cube[4][2][i] = temp;
+				
+			}			
+		}
+	}
+	public static void rotateOrange(boolean clockwise) {
+		rotateFace(cube[3], clockwise);
+		for(int i = 0; i < 3; i++ ) {
+			if (clockwise) {
+				String temp = cube [5][i][0];
+				cube [5][i][0] = cube [1][i][0];
+				cube [1][i][0] = cube[4][i][0];
+				cube[4][i][0] = cube[0][i][0];
+				cube[0][i][0] = temp;
+			}
+			else{
+				String temp = cube[0][i][0];
+				cube[0][i][0] = cube[4][i][0];
+				cube[4][i][0] = cube [1][i][0];
+				cube [1][i][0] = cube [5][i][0];
+				cube [5][i][0] = temp;
+				
+			}			
+		}
+	}
+	public static void rotateWhite(boolean clockwise) {
+		rotateFace(cube[4], clockwise);
+		for(int i = 0; i < 3; i++ ) {
+			if (clockwise) {
+				String temp = cube [0][2][i];
+				cube [0][2][i] = cube [3][2][i];
+				cube [3][2][i] = cube[1][0][2 - i];
+				cube[1][0][2 - i] = cube[2][2][i];
+				cube[2][2][i] = temp;
+			}
+			else{
+				String temp = cube[2][2][i];
+				cube[2][2][i] = cube[1][0][2 - i];
+				cube[1][0][2 - i] = cube [3][2][i];
+				cube [3][2][i] = cube [0][2][i];
+				cube [0][2][i] = temp;
+				
+			}			
+		}
+	}
+	public static void rotateYellow(boolean clockwise) {
+		rotateFace(cube[5], clockwise);
+		for(int i = 0; i < 3; i++ ) {
+			if (clockwise) {
+				String temp = cube [1][2][i];
+				cube [1][2][i] = cube [3][0][2 - i];
+				cube [3][0][2 - i] = cube[0][0][2 - i];
+				cube[0][0][2 - i] = cube[2][0][2 - i];
+				cube[2][0][2 - i] = temp;
+			}
+			else{
+				String temp = cube[2][0][2 - i];
+				cube[2][0][2 - i] = cube[0][0][2 - i];
+				cube[0][0][2 - i] = cube [3][0][2 - i];
+				cube [3][0][2 - i] = cube [1][2][i];
+				cube [1][2][i] = temp;
+				
+			}			
+		}
+	}
+
+
+
 
     public static void main (String[] args) {
+		Scanner inputs = new Scanner(System.in);
 
-        showFace(cube[0]);
-        rotateFace(cube[0], false);
-        System.out.println();
-        showFace(cube[0]);
+		boolean exitProgram = false;
+		while(!exitProgram){
+		
+		showCube();
+
+		String blue = inputs.next();
+		switch (blue) {
+			case "B":
+				rotateBlue(true);
+				break;
+			case "O":
+				rotateOrange(true);
+				break;
+			case "Y":
+				rotateYellow(true);
+				break;
+			case "G":
+				rotateGreen(true);
+				break;
+			case "W":
+				rotateWhite(true);
+				break;
+			case "R":
+				rotateRed(true);
+				break;
+
+			case "B'":
+				rotateBlue(false);
+				break;
+			case "O'":
+				rotateOrange(false);
+				break;
+			case "Y'":
+				rotateYellow(false);
+				break;
+			case "G'":
+				rotateGreen(false);
+				break;
+			case "W'":
+				rotateWhite(false);
+				break;
+			case "R'":
+				rotateRed(false);
+				break;
+
+			case "Q":
+				exitProgram = true;
+				break;
+
+	
+		}
+		}
+
+        
 
     }
 }
